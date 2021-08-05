@@ -88,6 +88,7 @@ def getDate(baseurl):
             bd = re.findall(findBd,item)[0]
             bd = re.sub('<br(\s+)?/>(\s+)?'," ", bd)    # 去掉<br/>
             bd = re.sub('/', " ", bd)   # 去掉/
+            bd = re.sub('\s+', '', bd)
             data.append(bd.strip())     # 去掉前后空格
 
             datalist.append(data) # 把处理好的一部电影信息放入datalist
@@ -139,7 +140,7 @@ def saveDataDB(datalist,dbpath):
         for index in range(len(data)):
             if index == 4 or index == 5:
                 continue
-            data[index] = '"'+data[index]+'"'
+            data[index] = '"'+data[index].strip()+'"'
         sql = '''
                 insert into movie_top250 (info_link, pic_link, cname, ename, score, rated, instroduction, info)
                 values(%s)'''%",".join(data)
